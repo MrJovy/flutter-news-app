@@ -6,6 +6,7 @@ import 'package:flutter_first_test/models/article_model.dart';
 import 'package:flutter_first_test/models/category_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_first_test/views/article_view.dart';
+import 'package:flutter_first_test/views/category_news.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -40,7 +41,7 @@ class _HomeState extends State<Home> {
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Caribbean"),
+            Text("The"),
             Text("News", style: TextStyle(color: Colors.blue))
           ],
         ),
@@ -99,13 +100,21 @@ class _HomeState extends State<Home> {
 
 //! correct
 class CategoryTile extends StatelessWidget {
-  final imageUrl, categoryName;
+  final String imageUrl, categoryName;
   CategoryTile({this.imageUrl, this.categoryName});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CategoryNews(
+                    category: categoryName.toLowerCase(),
+                  )),
+        );
+      },
       child: Container(
           margin: EdgeInsets.only(right: 16),
           child: Stack(
