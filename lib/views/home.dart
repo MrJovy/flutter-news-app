@@ -5,6 +5,7 @@ import 'package:flutter_first_test/helper/news.dart';
 import 'package:flutter_first_test/models/article_model.dart';
 import 'package:flutter_first_test/models/category_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_first_test/views/article_view.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -81,10 +82,10 @@ class _HomeState extends State<Home> {
                         physics: ClampingScrollPhysics(),
                         itemBuilder: (context, index) {
                           return BlogTile(
-                            imageUrl: articles[index].urlToImage,
-                            title: articles[index].title,
-                            desc: articles[index].description,
-                          );
+                              imageUrl: articles[index].urlToImage,
+                              title: articles[index].title,
+                              desc: articles[index].description,
+                              blogUrl: articles[index].url);
                         },
                       ),
                     )
@@ -141,31 +142,44 @@ class CategoryTile extends StatelessWidget {
 }
 
 class BlogTile extends StatelessWidget {
-  final String imageUrl, title, desc;
+  final String imageUrl, title, desc, blogUrl;
   BlogTile(
-      {@required this.imageUrl, @required this.title, @required this.desc});
+      {@required this.imageUrl,
+      @required this.title,
+      @required this.desc,
+      @required this.blogUrl});
   @override
   Widget build(BuildContext context) {
-    return Container(
-        margin: EdgeInsets.only(bottom: 16),
-        child: Column(
-          children: <Widget>[
-            ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: Image.network(imageUrl)),
-            SizedBox(
-              height: 8,
-            ),
-            Text(title,
-                style: TextStyle(
-                    fontSize: 17,
-                    color: Colors.black87,
-                    fontWeight: FontWeight.w500)),
-            SizedBox(
-              height: 8,
-            ),
-            Text(desc, style: TextStyle(color: Colors.black45)),
-          ],
-        ));
+    return GestureDetector(
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => ArticleView(
+                      blogUrl: blogUrl,
+                    )));
+      },
+      child: Container(
+          margin: EdgeInsets.only(bottom: 16),
+          child: Column(
+            children: <Widget>[
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: Image.network(imageUrl)),
+              SizedBox(
+                height: 8,
+              ),
+              Text(title,
+                  style: TextStyle(
+                      fontSize: 17,
+                      color: Colors.black87,
+                      fontWeight: FontWeight.w500)),
+              SizedBox(
+                height: 8,
+              ),
+              Text(desc, style: TextStyle(color: Colors.black45)),
+            ],
+          )),
+    );
   }
 }
